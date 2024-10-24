@@ -1,0 +1,46 @@
+from flask import Flask, jsonify
+import requests
+import datetime
+
+app = Flask(__name__)
+
+# URL del servicio de alimentos
+ALIMENTOS_SERVICE_URL = 'http://localhost:5001'
+
+# Función para calcular la felicidad
+def calcular_felicidad(ultima_alimentacion):
+    ahora = datetime.datetime.now()
+    ultima_alimentacion_dt = datetime.datetime.fromisoformat(ultima_alimentacion)
+    
+    # Calculamos la diferencia en horas
+    diferencia_horas = (ahora - ultima_alimentacion_dt).total_seconds() / 3600
+    
+    # Si han pasado menos de 5 horas, la mascota está feliz
+    if diferencia_horas < 5:
+        return "feliz"
+    elif 5 <= diferencia_horas < 10:
+        return "neutra"
+    else:
+        return "triste"
+
+# Ruta para verificar la felicidad de la mascota
+@app.route('/felicidad/<int:mascota_id>', methods=['GET'])
+def obtener_felicidad(mascota_id):
+    # Consultamos al servicio de alimentos para obtener la última hora de alimentación
+    response = requests.get(f'{ALIMENTOS_SERVICE_URL}/ultima_alimentacion/{mascota_id}')
+    
+    if response.status_code == 200:
+        data = response.json()
+        ultima_alimentacion = data['hora_alimentacion']
+        
+        # Calculamos la felicidad
+        estado_felicidad = calcular_felicidad(ultima_alimentacion)
+        return jsonify({
+            'mascota_id': mascota_id,
+            'estado_felicidad': estado_felicidad
+        }), 200
+    else:
+        return jsonify({'mensaje': 'No se pudo obtener la información de alimentación.'}), 404
+
+if __name__ == '__main__':
+    app.run(port=5002)
