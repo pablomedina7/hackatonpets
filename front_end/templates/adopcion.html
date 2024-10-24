@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Adopta una Mascota</h2>
+            <form id="adoptForm">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre de la Mascota</label>
+                    <input type="text" class="form-control" id="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo de Mascota</label>
+                    <input type="text" class="form-control" id="tipo" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Adoptar</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('adoptForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const tipo = document.getElementById('tipo').value;
+
+            fetch('/adopcion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre: nombre, tipo: tipo })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                document.getElementById('adoptForm').reset();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+{% endblock %}

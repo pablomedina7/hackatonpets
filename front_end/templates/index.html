@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Hero Section (Sección Principal) -->
+    <section class="hero bg-dark text-black d-flex align-items-center" style="background-image: url('https://i.pinimg.com/564x/c7/5f/c3/c75fc34bb2d0652d25551ab4c8ce0ca9.jpg'); height: 80vh; background-size: cover;">
+        <div class="container text-center">
+            <h1 class="display-4">Adopta y cuida a tu mascota virtual</h1>
+            <p class="lead">Con nuestro sistema, puedes adoptar, alimentar y verificar la felicidad de tu mascota</p>
+            <a href="/adopcion" class="btn btn-primary btn-lg">Adoptar una Mascota</a>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 class="display-5">Nuestros Servicios</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Adopción de Mascotas</h5>
+                            <p class="card-text">Encuentra una mascota que necesita un hogar.</p>
+                            <a href="/adopcion" class="btn btn-outline-primary">Adoptar Ahora</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Alimentar Mascotas</h5>
+                            <p class="card-text">Asegúrate de que tu mascota esté bien alimentada.</p>
+                            <a href="/alimentar" class="btn btn-outline-primary">Alimentar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Verificar Felicidad</h5>
+                            <p class="card-text">Monitorea la felicidad de tu mascota en tiempo real.</p>
+                            <a href="/felicidad" class="btn btn-outline-primary">Verificar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
