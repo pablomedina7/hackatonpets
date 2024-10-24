@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Verificar la Felicidad de tu Mascota</h2>
+        <p class="text-center">Introduce el ID de la mascota para verificar su nivel de felicidad.</p>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="felicidadForm">
+                    <div class="form-group">
+                        <label for="mascotaId">ID de la Mascota:</label>
+                        <input type="number" class="form-control" id="mascotaId" placeholder="Introduce el ID de tu mascota" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Verificar Felicidad</button>
+                </form>
+                <div id="resultMessage" class="mt-4 text-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('felicidadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const mascotaId = document.getElementById('mascotaId').value;
+
+            if (mascotaId) {
+                fetch(`/felicidad/${mascotaId}`, {  // Ajuste en la URL para que pase correctamente el ID
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.felicidad) {
+                        document.getElementById('resultMessage').innerHTML = `<div class="alert alert-info">La felicidad de tu mascota es: ${data.felicidad}</div>`;
+                    } else if (data.error) {
+                        document.getElementById('resultMessage').innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('resultMessage').innerHTML = `<div class="alert alert-danger">Error al verificar la felicidad de la mascota.</div>`;
+                });
+            } else {
+                document.getElementById('resultMessage').innerHTML = `<div class="alert alert-danger">Debes ingresar un ID de mascota.</div>`;
+            }
+        });
+    </script>
+{% endblock %}

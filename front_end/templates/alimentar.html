@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center">Alimentar a tu Mascota</h2>
+        <p class="text-center">Introduce el ID de la mascota que deseas alimentar.</p>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="alimentarForm">
+                    <div class="form-group">
+                        <label for="mascotaId">ID de la Mascota:</label>
+                        <input type="number" class="form-control" id="mascotaId" placeholder="Introduce el ID de tu mascota" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Alimentar</button>
+                </form>
+                <div id="resultMessage" class="mt-4 text-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('alimentarForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const mascotaId = document.getElementById('mascotaId').value;
+
+            fetch('/alimentar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({mascota_id: mascotaId})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    document.getElementById('resultMessage').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                } else if (data.error) {
+                    document.getElementById('resultMessage').innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('resultMessage').innerHTML = `<div class="alert alert-danger">Error al alimentar a la mascota.</div>`;
+            });
+        });
+    </script>
+{% endblock %}

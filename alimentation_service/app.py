@@ -1,16 +1,14 @@
 from flask import Flask
-from routes.alimentation_routes import alimentacion_bp
-from models.alimentationdb_model import db
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from config import Config
+from models.alimentationdb_model import db  # Asegúrate de que esta importación es correcta
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 db.init_app(app)
-
-app.register_blueprint(alimentacion_bp)
+migrate = Migrate(app, db)
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(port=5002)

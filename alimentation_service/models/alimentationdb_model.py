@@ -1,12 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 
 db = SQLAlchemy()
 
 class Alimentacion(db.Model):
+    __tablename__ = 'alimentacion'
+
     id = db.Column(db.Integer, primary_key=True)
-    mascota_id = db.Column(db.Integer, nullable=False)  # Asociado a la mascota
-    fecha_alimentacion = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    mascota_id = db.Column(db.Integer, nullable=False)
+    fecha_alimentacion = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def __repr__(self):
-        return f"<Alimentacion mascota_id={self.mascota_id} fecha={self.fecha_alimentacion}>"
+        return f'<Alimentacion {self.mascota_id}>'
